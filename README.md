@@ -1,3 +1,4 @@
+USE AT YOUR OWN RISK
 
 # Dockup
 
@@ -30,45 +31,21 @@ Launch `dockup` container with the following flags:
 $ docker run --rm \
 --env-file env.txt \
 --volumes-from mysql \
---name dockup borja/dockup
+--name dockup sbrocher/dockup
 ```
 
 The contents of `env.txt` being:
 
 ```
-AWS_ACCESS_KEY_ID=<key_here>
-AWS_SECRET_ACCESS_KEY=<secret_here>
-AWS_DEFAULT_REGION=us-east-1
+ST_AUTH=<public or private auth endpoint>
+ST_KEY=<api key>
+ST_USER=<user name>
 BACKUP_NAME=mysql
 PATHS_TO_BACKUP=/etc/mysql /var/lib/mysql
-S3_BUCKET_NAME=docker-backups.example.com
+ST_BUCKET_NAME=dockup-backups
 ```
 
-`dockup` will use your AWS credentials to create a new bucket with name as per the environment variable `S3_BUCKET_NAME`, or if not defined, using the default name `docker-backups.example.com`. The paths in `PATHS_TO_BACKUP` will be tarballed, gzipped, time-stamped and uploaded to the S3 bucket.
-
-
-> [Bucket naming guidelines](http://docs.aws.amazon.com/cli/latest/userguide/using-s3-commands.html):
-> "Bucket names must be unique and should be DNS compliant. Bucket names can contain lowercase letters, numbers, hyphens and periods. Bucket names can only start and end with a letter or number, and cannot contain a period next to a hyphen or another period."
-
-These rules are enforced in some regions.
-
-
-[AWS S3 Regions](http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
-
-| Region name               | Region         |
-| ------------------------- | -------------- |
-| US Standard               | us-east-1      |
-| US West (Oregon)          | us-west-2      |
-| US West (N. California)   | us-west-1      |
-| EU (Ireland)              | eu-west-1      |
-| EU (Frankfurt)            | eu-central-1   |
-| Asia Pacific (Singapore)  | ap-southeast-1 |
-| Asia Pacific (Sydney)     | ap-southeast-2 |
-| Asia Pacific (Tokyo)      | ap-northeast-1 |
-| South America (Sao Paulo) | sa-east-1      |
+`dockup` will use your SoftLayer Object Storage credentials to create a new bucket (SoftLayer actually calls these containers, but for the safe of clarity we'll use bucket to refer to a SoftLayer Object Storage container) with name as per the environment variable `ST_BUCKET_NAME`, or if not defined, using the default name `docker-backups`. The paths in `PATHS_TO_BACKUP` will be tarballed, gzipped, time-stamped and uploaded to the SL bucket.
 
 
 To perform a restore launch the container with the RESTORE variable set to true
-
-
-![](http://s.tutum.co.s3.amazonaws.com/support/images/dockup-readme.png)
