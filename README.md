@@ -45,7 +45,7 @@ PATHS_TO_BACKUP=/etc/mysql /var/lib/mysql
 ST_BUCKET_NAME=dockup-backups
 ```
 
-`dockup` will use your SoftLayer Object Storage credentials to create a new bucket (SoftLayer actually calls these containers, but for the safe of clarity we'll use bucket to refer to a SoftLayer Object Storage container) with name as per the environment variable `ST_BUCKET_NAME`, or if not defined, using the default name `docker-backups`. The paths in `PATHS_TO_BACKUP` will be tarballed, gzipped, time-stamped and uploaded to the SL bucket.
+`dockup` will use your SoftLayer Object Storage credentials to create a new bucket (SoftLayer actually calls these containers, but for the sake of clarity we'll use bucket to refer to a SoftLayer Object Storage container) with name as per the environment variable `ST_BUCKET_NAME`, or if not defined, using the default name `docker-backups`. The paths in `PATHS_TO_BACKUP` will be tarballed, gzipped, time-stamped and uploaded to the SL bucket.
 
 
 To perform a restore launch the container with the RESTORE variable set to true
